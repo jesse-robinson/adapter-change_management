@@ -140,11 +140,6 @@ class ServiceNowConnector {
      * and/or errors the request() function returns.
      * This function must not check for a hibernating instance;
      * it must call function isHibernating.
-
-     NOTES RE: LAB 3
-     At first I came up with this line:
-       error !== null || !validResponseRegex.test(response.statusCode) || isHibernating(response) ? callback('an error', true) : callback(response);
-     But now I beleive you were expecting me to take the block of code from Lab 2 and modify it like I did below. Both versions appear to achieve similar functionality.
      */
     let callbackError;
     let callbackData;
