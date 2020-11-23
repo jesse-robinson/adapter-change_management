@@ -198,7 +198,7 @@ class ServiceNowAdapter extends EventEmitter {
                 "change_ticket_key" : result.sys_id,
                 }
               }), error);
-     })
+     });
   }
 
   /**
@@ -229,7 +229,7 @@ class ServiceNowAdapter extends EventEmitter {
                 "change_ticket_key" : result.sys_id,
                 }
               }), error);
-     })
+     });
   }
 }
 
