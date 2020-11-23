@@ -187,16 +187,18 @@ class ServiceNowAdapter extends EventEmitter {
      * get() takes a callback function.
      */
      this.connector.get((data, error) => {
-         error ? callback(data, error) : callback((JSON.parse(data.body).result).forEach(result => {
-                {"change_ticket_number" : result.number,
+         error ? callback(data, error) : callback(JSON.parse(data.body).result.forEach(result => {
+                return {
+                "change_ticket_number" : result.number,
                 "active" : result.active,
                 "priority" : result.priority,
                 "description" : result.description,
                 "work_start" : result.work_start,
                 "work_end" : result.work_end,
-                "change_ticket_key" : result.sys_id,}
+                "change_ticket_key" : result.sys_id,
+                }
               }), error);
-     }
+     })
   }
 
   /**
@@ -216,16 +218,18 @@ class ServiceNowAdapter extends EventEmitter {
      * post() takes a callback function.
      */
      this.connector.post((data, error) => {
-         error ? callback(data, error) : callback((JSON.parse(data.body).result).forEach(result => {
-                {"change_ticket_number" : result.number,
+         error ? callback(data, error) : callback(JSON.parse(data.body).result.forEach(result => {
+                return {
+                "change_ticket_number" : result.number,
                 "active" : result.active,
                 "priority" : result.priority,
                 "description" : result.description,
                 "work_start" : result.work_start,
                 "work_end" : result.work_end,
-                "change_ticket_key" : result.sys_id,}
+                "change_ticket_key" : result.sys_id,
+                }
               }), error);
-     }
+     })
   }
 }
 
