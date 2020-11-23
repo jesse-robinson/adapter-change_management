@@ -218,17 +218,16 @@ class ServiceNowAdapter extends EventEmitter {
      * post() takes a callback function.
      */
      this.connector.post((data, error) => {
-         error ? callback(data, error) : callback(JSON.parse(data.body).result.forEach(result => {
-                return {
-                "change_ticket_number" : result.number,
-                "active" : result.active,
-                "priority" : result.priority,
-                "description" : result.description,
-                "work_start" : result.work_start,
-                "work_end" : result.work_end,
-                "change_ticket_key" : result.sys_id,
-                }
-              }), error);
+         error ? callback(data, error) : callback(
+                {
+                "change_ticket_number" : JSON.parse(data.body).result[0].number,
+                "active" : JSON.parse(data.body).result[0].active,
+                "priority" : JSON.parse(data.body).result[0].priority,
+                "description" : JSON.parse(data.body).result[0].description,
+                "work_start" : JSON.parse(data.body).result[0].work_start,
+                "work_end" : JSON.parse(data.body).result[0].work_end,
+                "change_ticket_key" : JSON.parse(data.body).result[0].sys_id,
+                }, error);
      });
   }
 }
