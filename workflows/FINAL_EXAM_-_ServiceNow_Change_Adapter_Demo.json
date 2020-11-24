@@ -1,0 +1,193 @@
+{
+  "name": "FINAL EXAM - ServiceNow Change Adapter Demo",
+  "tasks": {
+    "workflow_start": {
+      "name": "workflow_start",
+      "groups": [],
+      "x": 0,
+      "y": 0.5
+    },
+    "workflow_end": {
+      "name": "workflow_end",
+      "groups": [],
+      "x": 1,
+      "y": 0.5
+    },
+    "d9a": {
+      "name": "getRecord",
+      "summary": "Get Change Tickets",
+      "description": "Get a list of ServiceNow change management tickets.",
+      "location": "Adapter",
+      "locationType": "ServiceNowAdapter",
+      "app": "ServiceNowAdapter",
+      "displayName": "ServiceNowAdapter",
+      "type": "automatic",
+      "variables": {
+        "incoming": {
+          "adapter_id": "ServiceNow Change"
+        },
+        "outgoing": {
+          "changeTickets": null
+        },
+        "error": ""
+      },
+      "deprecated": false,
+      "matched": [],
+      "groups": [],
+      "actor": "Pronghorn",
+      "x": 0.15960374243258119,
+      "y": 0.5043310875842156,
+      "scheduled": false
+    },
+    "405e": {
+      "name": "postRecord",
+      "summary": "Create new ticket",
+      "description": "Create's a new ticket and returns it.",
+      "location": "Adapter",
+      "locationType": "ServiceNowAdapter",
+      "app": "ServiceNowAdapter",
+      "displayName": "ServiceNowAdapter",
+      "type": "automatic",
+      "variables": {
+        "incoming": {
+          "adapter_id": "ServiceNow Change"
+        },
+        "outgoing": {
+          "changeTicket": null
+        }
+      },
+      "deprecated": false,
+      "matched": [],
+      "groups": [],
+      "actor": "Pronghorn",
+      "x": 0.360484314804623,
+      "y": 0.6746871992300288
+    },
+    "471c": {
+      "name": "push",
+      "summary": "Adds an element to the end of the array.",
+      "description": "Adds one element to the end of an array and returns the (newly modified) array.",
+      "location": "Application",
+      "locationType": null,
+      "app": "ArrayMethods",
+      "displayName": "Array",
+      "type": "automatic",
+      "variables": {
+        "incoming": {
+          "arr": "$var.d9a.changeTickets",
+          "elementN": "$var.405e.changeTicket"
+        },
+        "outgoing": {
+          "pushedArray": null
+        },
+        "error": ""
+      },
+      "deprecated": false,
+      "matched": [],
+      "groups": [],
+      "actor": "Pronghorn",
+      "x": 0.379746835443038,
+      "y": 0.5014436958614052,
+      "scheduled": false
+    },
+    "49e7": {
+      "name": "ViewData",
+      "summary": "View Data",
+      "description": "View data in a pretty format",
+      "location": "Application",
+      "app": "Tools",
+      "displayName": "Tools",
+      "type": "manual",
+      "variables": {
+        "incoming": {
+          "header": "Summary",
+          "message": "Here is a list that includes both new and pre-existing tickets:",
+          "body": "$var.471c.pushedArray",
+          "btn_success": "Pass",
+          "btn_failure": "Fail"
+        },
+        "outgoing": {},
+        "error": ""
+      },
+      "view": "/tools/task/ViewData",
+      "deprecated": false,
+      "matched": [],
+      "groups": [
+        {
+          "provenance": "LDAP",
+          "name": "operations",
+          "description": "operations"
+        },
+        {
+          "provenance": "LDAP",
+          "name": "engineering",
+          "description": "engineering"
+        },
+        {
+          "provenance": "LDAP",
+          "name": "administration",
+          "description": "administration"
+        }
+      ],
+      "x": 0.6620803522289488,
+      "y": 0.5216554379210779,
+      "scheduled": false
+    }
+  },
+  "transitions": {
+    "workflow_start": {
+      "d9a": {
+        "type": "standard",
+        "state": "success"
+      }
+    },
+    "workflow_end": {},
+    "d9a": {
+      "471c": {
+        "type": "standard",
+        "state": "success"
+      },
+      "405e": {
+        "type": "standard",
+        "state": "success"
+      }
+    },
+    "405e": {
+      "471c": {
+        "type": "standard",
+        "state": "success"
+      }
+    },
+    "471c": {
+      "49e7": {
+        "type": "standard",
+        "state": "success"
+      }
+    },
+    "49e7": {
+      "workflow_end": {
+        "type": "standard",
+        "state": "success"
+      }
+    }
+  },
+  "font_size": 12,
+  "created": "2020-11-24T04:42:21.913Z",
+  "created_by": {
+    "provenance": "LDAP",
+    "username": "admin",
+    "firstname": "admin",
+    "inactive": false
+  },
+  "groups": [],
+  "last_updated": "2020-11-24T04:43:17.337Z",
+  "last_updated_by": {
+    "provenance": "LDAP",
+    "username": "admin",
+    "firstname": "admin",
+    "inactive": false
+  },
+  "type": "automation",
+  "description": null,
+  "tags": []
+}

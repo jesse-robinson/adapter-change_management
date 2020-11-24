@@ -186,20 +186,26 @@ class ServiceNowAdapter extends EventEmitter {
      * Note how the object was instantiated in the constructor().
      * get() takes a callback function.
      */
-     this.connector.get((data, error) => {
-         error ? callback(data, error) : callback(JSON.parse(data.body).result.forEach(result => {
-                return {
-                "change_ticket_number" : result.number,
-                "active" : result.active,
-                "priority" : result.priority,
-                "description" : result.description,
-                "work_start" : result.work_start,
-                "work_end" : result.work_end,
-                "change_ticket_key" : result.sys_id,
-                }
-              }), error);
-     });
-  }
+     this.connector.get(((data, error) => {
+       if (error) {
+         callback(data, error);
+       } else { 
+         let convertedData = [];
+         for(let result of JSON.parse(data.body).result){
+           convertedData.push({
+             "change_ticket_number" : result.number,
+             "active" : result.active,
+             "priority" : result.priority,
+             "description" : result.description,
+             "work_start" : result.work_start,
+             "work_end" : result.work_end,
+             "change_ticket_key" : result.sys_id,
+           });
+         }
+         callback(convertedData, error);
+       }
+     }));
+   }
 
   /**
    * @memberof ServiceNowAdapter
@@ -220,13 +226,13 @@ class ServiceNowAdapter extends EventEmitter {
      this.connector.post((data, error) => {
          error ? callback(data, error) : callback(
                 {
-                "change_ticket_number" : JSON.parse(data.body).result[0].number,
-                "active" : JSON.parse(data.body).result[0].active,
-                "priority" : JSON.parse(data.body).result[0].priority,
-                "description" : JSON.parse(data.body).result[0].description,
-                "work_start" : JSON.parse(data.body).result[0].work_start,
-                "work_end" : JSON.parse(data.body).result[0].work_end,
-                "change_ticket_key" : JSON.parse(data.body).result[0].sys_id,
+                "change_ticket_number" : JSON.parse(data.body).result.number,
+                "active" : JSON.parse(data.body).result.active,
+                "priority" : JSON.parse(data.body).result.priority,
+                "description" : JSON.parse(data.body).result.description,
+                "work_start" : JSON.parse(data.body).result.work_start,
+                "work_end" : JSON.parse(data.body).result.work_end,
+                "change_ticket_key" : JSON.parse(data.body).result.sys_id,
                 }, error);
      });
   }
